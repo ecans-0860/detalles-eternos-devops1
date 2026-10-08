@@ -22,7 +22,6 @@ server {
     resolver 8.8.8.8 1.1.1.1 valid=30s;
 
     location /api/auth/ {
-        rewrite ^/api/auth/(.*)$ /$1 break;
         proxy_pass ${API_AUTH_URL}/;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
