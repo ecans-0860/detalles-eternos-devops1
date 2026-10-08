@@ -22,30 +22,30 @@ server {
     resolver 8.8.8.8 1.1.1.1 valid=30s;
 
     location /api/auth/ {
-        proxy_pass ${API_AUTH_URL}/;
+        proxy_pass ${API_AUTH_URL};
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/catalogo/ {
         rewrite ^/api/catalogo/(.*)$ /$1 break;
-        proxy_pass ${API_CATALOGO_URL}/;
+        proxy_pass ${API_CATALOGO_URL};
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location ^~ /uploads/ {
-        proxy_pass ${API_CATALOGO_URL}/;
+        proxy_pass ${API_CATALOGO_URL};
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/pedidos/ {
         rewrite ^/api/pedidos/(.*)$ /$1 break;
-        proxy_pass ${API_PEDIDOS_URL}/;
+        proxy_pass ${API_PEDIDOS_URL};
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/pagos/ {
         rewrite ^/api/pagos/(.*)$ /$1 break;
-        proxy_pass ${API_PAGOS_URL}/;
+        proxy_pass ${API_PAGOS_URL};
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
