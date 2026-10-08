@@ -1,16 +1,8 @@
-# ============================================================
-# nginx para el sitio de Detalles Eternos GT
-#  - Sirve las páginas (HTML, CSS, JS).
-#  - Reenvía /api/<servicio>/ a cada microservicio. Así el navegador
-#    usa un solo dominio y no hace falta configurar CORS.
-# Para usar con un dominio: cambiar server_name y agregar HTTPS
-# (ver la sección "Publicar en un dominio" de INTEGRACION.md).
-# ============================================================
 server {
     listen 80;
-    server_name _;                      # ej.: detalleseternos.gt www.detalleseternos.gt
+    server_name _;
 
-    root  /usr/share/nginx/html;
+    root /usr/share/nginx/html;
     index index.html;
     charset utf-8;
 
@@ -20,34 +12,41 @@ server {
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
-    # Compresión: carga más rápida en 4G
+    # Compresión
     gzip on;
     gzip_comp_level 6;
     gzip_min_length 1024;
     gzip_types text/css application/javascript application/json image/svg+xml text/plain;
 
-    # ---------- APIs del backend ----------
-    # Las direcciones se resuelven al usarse (resolver de Docker), así nginx
-    # arranca aunque el backend todavía no esté listo.
-    resolver 127.0.0.11 valid=30s ipv6=off;
-    set $auth     http://auth:8001;
-    set $catalogo http://catalogo:8002;
-    set $pedidos  http://pedidos:8003;
-    set $pagos    http://pagos:8004;
+    # ---------- Resolver DNS público para URLs externas de Render ----------
+    resolver 8.8.8.8 1.1.1.1 valid=30s;
 
     location /api/auth/ {
-    proxy_pass ${API_AUTH_URL}/;
-    include /etc/nginx/conf.d/proxy_comun.inc;
-	}
+        proxy_pass ${API_AUTH_URL}/;
+        include /etc/nginx/conf.d/proxy_comun.inc;
+    }
+
     location /api/catalogo/ {
-    proxy_pass ${API_CATALOGO_URL}/;
-    include /etc/nginx/conf.d/proxy_comun.inc;
-	}
-	location ^~ /uploads/ {
-    proxy_pass ${API_CATALOGO_URL}/;
-    include /etc/nginx/conf.d/proxy_comun.inc;}
-    location /api/pedidos/  { rewrite ^/api/pedidos/(.*)$ /$1 break;  proxy_pass ${API_PEDIDOS_URL}/;  include /etc/nginx/conf.d/proxy_comun.inc; }
-    location /api/pagos/    { rewrite ^/api/pagos/(.*)$ /$1 break;    proxy_pass ${API_PAGOS_URL}/;    include /etc/nginx/conf.d/proxy_comun.inc; }
+        proxy_pass ${API_CATALOGO_URL}/;
+        include /etc/nginx/conf.d/proxy_comun.inc;
+    }
+
+    location ^~ /uploads/ {
+        proxy_pass ${API_CATALOGO_URL}/;
+        include /etc/nginx/conf.d/proxy_comun.inc;
+    }
+
+    location /api/pedidos/ {
+        rewrite ^/api/pedidos/(.*)$ /$1 break;
+        proxy_pass ${API_PEDIDOS_URL}/;
+        include /etc/nginx/conf.d/proxy_comun.inc;
+    }
+
+    location /api/pagos/ {
+        rewrite ^/api/pagos/(.*)$ /$1 break;
+        proxy_pass ${API_PAGOS_URL}/;
+        include /etc/nginx/conf.d/proxy_comun.inc;
+    }
 
     # ---------- Archivos estáticos ----------
     location ~* \.(css|js|svg|png|jpg|jpeg|webp|woff2)$ {
