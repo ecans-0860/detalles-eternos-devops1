@@ -36,18 +36,18 @@ server {
     set $pagos    http://pagos:8004;
 
     location /api/auth/ {
-    proxy_pass $auth;
+    proxy_pass ${API_AUTH_URL}/;
     include /etc/nginx/conf.d/proxy_comun.inc;
 	}
     location /api/catalogo/ {
-    proxy_pass $catalogo;
+    proxy_pass ${API_CATALOGO_URL}/;
     include /etc/nginx/conf.d/proxy_comun.inc;
 	}
 	location ^~ /uploads/ {
-    proxy_pass http://catalogo:8002;
+    proxy_pass ${API_CATALOGO_URL};
     include /etc/nginx/conf.d/proxy_comun.inc;}
-    location /api/pedidos/  { rewrite ^/api/pedidos/(.*)$ /$1 break;  proxy_pass $pedidos;  include /etc/nginx/conf.d/proxy_comun.inc; }
-    location /api/pagos/    { rewrite ^/api/pagos/(.*)$ /$1 break;    proxy_pass $pagos;    include /etc/nginx/conf.d/proxy_comun.inc; }
+    location /api/pedidos/  { rewrite ^/api/pedidos/(.*)$ /$1 break;  proxy_pass ${API_PEDIDOS_URL}/;  include /etc/nginx/conf.d/proxy_comun.inc; }
+    location /api/pagos/    { rewrite ^/api/pagos/(.*)$ /$1 break;    proxy_pass ${API_PAGOS_URL}/;    include /etc/nginx/conf.d/proxy_comun.inc; }
 
     # ---------- Archivos estáticos ----------
     location ~* \.(css|js|svg|png|jpg|jpeg|webp|woff2)$ {
