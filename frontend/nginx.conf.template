@@ -23,33 +23,28 @@ server {
 
     location /api/auth/ {
         proxy_pass ${API_AUTH_URL}/;
-        proxy_ssl_server_name on;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/catalogo/ {
         proxy_pass ${API_CATALOGO_URL}/;
-        proxy_ssl_server_name on;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location ^~ /uploads/ {
         proxy_pass ${API_CATALOGO_URL}/;
-        proxy_ssl_server_name on;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/pedidos/ {
         rewrite ^/api/pedidos/(.*)$ /$1 break;
         proxy_pass ${API_PEDIDOS_URL}/;
-        proxy_ssl_server_name on;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
     location /api/pagos/ {
         rewrite ^/api/pagos/(.*)$ /$1 break;
         proxy_pass ${API_PAGOS_URL}/;
-        proxy_ssl_server_name on;
         include /etc/nginx/conf.d/proxy_comun.inc;
     }
 
