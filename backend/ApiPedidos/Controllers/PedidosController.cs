@@ -6,6 +6,8 @@ using ApiPedidos.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ApiPedidos.Models;
+using ApiPedidos.Configuracion;
+using Microsoft.Extensions.Options;
 
 namespace ApiPedidos.Controllers;
 
@@ -17,6 +19,7 @@ public class PedidosController : ControllerBase
     private readonly CatalogoDbContext _catalogo;
     private readonly CotizacionService _cotizacionService;
     private readonly AuthDbContext _auth;
+    private readonly ReglasNegocioOptions _reglas;
 
     public PedidosController(
     AppDbContext context,
@@ -28,6 +31,7 @@ public class PedidosController : ControllerBase
         _catalogo = catalogo;
         _auth = auth;
         _cotizacionService = cotizacionService;
+        _reglas = reglas.Value;
     }
 
     [HttpGet]
@@ -270,6 +274,11 @@ public class PedidosController : ControllerBase
                 var puntosGanados = (int)Math.Floor(
                     pedido.subtotal / _reglas.PuntosCadaQ
                 );
+
+                Console.WriteLine($"Usuario encontrado: {usuario?.id}");
+                Console.WriteLine($"Puntos actuales: {usuario?.puntos}");
+                Console.WriteLine($"Subtotal: {pedido.subtotal}");
+                Console.WriteLine($"PuntosCadaQ: {_reglas.PuntosCadaQ}");
         
                 if (puntosGanados > 0)
                 {
