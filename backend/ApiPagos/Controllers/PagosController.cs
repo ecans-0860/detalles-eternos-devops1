@@ -68,7 +68,7 @@ public class PagosController : ControllerBase
         _context.Pagos.Add(pago);
 
         // Determinar el estado según el método de pago.
-        if (pago.metodo_pago == "TIENDA")
+        if (pago.metodo_pago == "contra_entrega")
         {
             pedido.estado = "PENDIENTE_PAGO";
         
