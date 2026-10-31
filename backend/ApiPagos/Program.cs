@@ -13,6 +13,16 @@ builder.Services.AddDbContext<PedidosDbContext>(options =>
         builder.Configuration.GetConnectionString("PedidosConnection")
     ));
 
+// Base de datos del usuario
+builder.Services.AddDbContext<AuthDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("AuthConnection")
+    ));
+
+builder.Services.Configure<ReglasNegocioOptions>(
+    builder.Configuration.GetSection("ReglasNegocio")
+);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
