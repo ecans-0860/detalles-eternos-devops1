@@ -19,7 +19,7 @@ public class PedidosController : ControllerBase
     private readonly CatalogoDbContext _catalogo;
     private readonly CotizacionService _cotizacionService;
     private readonly AuthDbContext _auth;
-    private readonly ReglasNegocioOptions _reglas;
+    private readonly ReglasNegocio _reglas;
 
     public PedidosController(
     AppDbContext context,
