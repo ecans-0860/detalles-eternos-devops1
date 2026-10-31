@@ -264,14 +264,17 @@ public class PedidosController : ControllerBase
         {
             var usuario = await _auth.Usuarios
                 .FirstOrDefaultAsync(u => u.id == pedido.usuario_id);
-
+        
             if (usuario != null)
             {
                 var puntosGanados = (int)Math.Floor(
-                    pedido.subtotal / 10
+                    pedido.subtotal / _reglas.PuntosCadaQ
                 );
-
-                usuario.puntos += puntosGanados;
+        
+                if (puntosGanados > 0)
+                {
+                    usuario.puntos += puntosGanados;
+                }
             }
         }
 
@@ -301,15 +304,15 @@ public class PedidosController : ControllerBase
             {
                 var usuario = await _auth.Usuarios
                     .FirstOrDefaultAsync(u => u.id == pedido.usuario_id);
-
+            
                 if (usuario != null)
                 {
                     var puntosGanados = (int)Math.Floor(
-                        pedido.subtotal / 10
+                        pedido.subtotal / _reglas.PuntosCadaQ
                     );
-
+            
                     usuario.puntos -= puntosGanados;
-
+            
                     if (usuario.puntos < 0)
                     {
                         usuario.puntos = 0;
