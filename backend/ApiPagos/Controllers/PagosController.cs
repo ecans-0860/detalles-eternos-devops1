@@ -99,7 +99,7 @@ public class PagosController : ControllerBase
         // Guardar los cambios.
         await _pedidosContext.SaveChangesAsync();
         await _context.SaveChangesAsync();
-        await _authContext.SaveChangesAsync();
+        await _auth.SaveChangesAsync();
 
         return Ok(new
         {
