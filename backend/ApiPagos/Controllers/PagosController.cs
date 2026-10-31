@@ -67,15 +67,31 @@ public class PagosController : ControllerBase
 
         _context.Pagos.Add(pago);
 
-        // Cambiar estado del pedido.
-        pedido.estado = "PAGADO";
-
-        pedido.historial.Add(new PedidoHistorial
+        // Determinar el estado según el método de pago.
+        if (pago.metodo_pago == "TIENDA")
         {
-            pedido_id = pedido.id,
-            estado = "PAGADO",
-            fecha = DateTime.UtcNow
-        });
+            pedido.estado = "PENDIENTE_PAGO";
+        
+            pedido.historial.Add(new PedidoHistorial
+            {
+                pedido_id = pedido.id,
+                estado = "PENDIENTE_PAGO",
+                fecha = DateTime.UtcNow
+            });
+        }
+        else
+        {
+            pedido.estado = "PAGADO";
+        
+            pedido.historial.Add(new PedidoHistorial
+            {
+                pedido_id = pedido.id,
+                estado = "PAGADO",
+                fecha = DateTime.UtcNow
+            });
+        }
+        
+        await _context.SaveChangesAsync();
 
        var usuario = await _auth.Usuarios
         .FirstOrDefaultAsync(u => u.id == pedido.usuario_id);
