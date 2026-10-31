@@ -85,17 +85,8 @@ public class PagosController : ControllerBase
             fecha = DateTime.UtcNow
         });
 
-        // Calcular puntos según la configuración.
-        if (_reglas.PuntosCadaQ <= 0)
-        {
-            return StatusCode(500, new
-            {
-                mensaje = "La configuración de puntos no es válida."
-            });
-        }
-
-        int puntosGanados = (int)Math.Floor(
-            pedido.subtotal / _reglas.PuntosCadaQ
+       int puntosGanados = (int)Math.Floor(
+            pedido.subtotal / 10
         );
 
         usuario.puntos += puntosGanados;
