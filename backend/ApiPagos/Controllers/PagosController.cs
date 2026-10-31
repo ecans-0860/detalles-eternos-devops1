@@ -1,7 +1,6 @@
 using ApiPagos.Data;
 using ApiPagos.DTOs;
 using ApiPagos.Models;
-using ApiPagos.Configuracion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
