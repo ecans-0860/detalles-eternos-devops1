@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiPagos.Controllers;
 
 [ApiController]
-[Route("pagos")]
+[Route("pagos/pagos")]
 public class PagosController : ControllerBase
 {
     private readonly AppDbContext _context;
