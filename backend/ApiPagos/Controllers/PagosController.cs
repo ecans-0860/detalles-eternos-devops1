@@ -24,7 +24,7 @@ public class PagosController : ControllerBase
     {
         _context = context;
         _pedidosContext = pedidosContext;
-        _auth = auth
+        _auth = auth;
     }
 
     [HttpPost]
