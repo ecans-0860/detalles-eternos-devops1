@@ -20,18 +20,17 @@ public class PagosController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly PedidosDbContext _pedidosContext;
-    private readonly AuthDbContext _authContext;
-    private readonly ReglasNegocioOptions _reglas;
+    private readonly AuthDbContext _auth;
 
     public PagosController(
         AppDbContext context,
         PedidosDbContext pedidosContext,
-        AuthDbContext authContext,
-        IOptions<ReglasNegocioOptions> reglas)
+        AuthDbContext auth,
+        )
     {
         _context = context;
         _pedidosContext = pedidosContext;
-        _authContext = authContext;
+        _auth = auth;
         _reglas = reglas.Value;
     }
 
@@ -85,18 +84,6 @@ public class PagosController : ControllerBase
             estado = "PAGADO",
             fecha = DateTime.UtcNow
         });
-
-        // Buscar al usuario en ApiAuth.
-        var usuario = await _authContext.Usuarios
-            .FirstOrDefaultAsync(u => u.id == pedido.usuario_id);
-
-        if (usuario == null)
-        {
-            return NotFound(new
-            {
-                mensaje = "No se encontró el usuario para acreditar los puntos."
-            });
-        }
 
         // Calcular puntos según la configuración.
         if (_reglas.PuntosCadaQ <= 0)
