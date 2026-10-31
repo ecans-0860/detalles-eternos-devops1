@@ -557,7 +557,7 @@
 	},
     pedidos: {
       async cotizar(datos) {
-        try { return await http('/pedidos/pedidos/cotizar', { metodo: 'POST', datos }); }
+        try { return await http('/pedidos/cotizar', { metodo: 'POST', datos }); }
         catch (e) {
           if (!noExiste(e)) throw e;
           // Respaldo mientras el backend no tenga /cotizar: se calcula aquí con los datos reales del catálogo.
@@ -566,14 +566,14 @@
           return DE.cotizar(datos, Object.fromEntries(r.data.map((p) => [p.id, p])), DE.sesion.obtener()?.usuario.rol);
         }
       },
-      crear(datos) { return http('/pedidos/pedidos', { metodo: 'POST', datos }); },
-      listar(f) { return http('/pedidos/pedidos', { parametros: f }).then((r) => (Array.isArray(r) ? { total: r.length, pagina: 1, data: r } : r)); },
-      obtener(id) { return http(`/pedidos/pedidos/${Number(id)}`); },
-      cambiarEstado(id, estado) { return http(`/pedidos/pedidos/${id}/estado`, { metodo: 'PATCH', datos: { estado } }); },
-      resumen() { return http('/pedidos/pedidos/resumen'); },
+      crear(datos) { return http('/pedidos', { metodo: 'POST', datos }); },
+      listar(f) { return http('/pedidos', { parametros: f }).then((r) => (Array.isArray(r) ? { total: r.length, pagina: 1, data: r } : r)); },
+      obtener(id) { return http(`/pedidos/${Number(id)}`); },
+      cambiarEstado(id, estado) { return http(`/pedidos/${id}/estado`, { metodo: 'PATCH', datos: { estado } }); },
+      resumen() { return http('/pedidos/resumen'); },
     },
     pagos: {
-      pagar(pedidoId) { return http('/pagos/pagos', { metodo: 'POST', datos: { pedido_id: Number(pedidoId) } }); },
+      pagar(pedidoId) { return http('/pagos', { metodo: 'POST', datos: { pedido_id: Number(pedidoId) } }); },
     },
   };
 
