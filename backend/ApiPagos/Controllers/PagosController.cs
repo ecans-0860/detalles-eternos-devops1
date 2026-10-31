@@ -25,7 +25,7 @@ public class PagosController : ControllerBase
     public PagosController(
         AppDbContext context,
         PedidosDbContext pedidosContext,
-        AuthDbContext auth,
+        AuthDbContext auth
         )
     {
         _context = context;
