@@ -276,7 +276,6 @@ public class PedidosController : ControllerBase
                 Console.WriteLine($"Usuario encontrado: {usuario?.id}");
                 Console.WriteLine($"Puntos actuales: {usuario?.puntos}");
                 Console.WriteLine($"Subtotal: {pedido.subtotal}");
-                Console.WriteLine($"PuntosCadaQ: {_reglas.PuntosCadaQ}");
         
                 if (puntosGanados > 0)
                 {
