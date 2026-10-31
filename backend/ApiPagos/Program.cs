@@ -19,10 +19,6 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
         builder.Configuration.GetConnectionString("AuthConnection")
     ));
 
-builder.Services.Configure<ReglasNegocioOptions>(
-    builder.Configuration.GetSection("ReglasNegocio")
-);
-
 // Add services to the container.
 
 builder.Services.AddControllers();
