@@ -19,8 +19,7 @@ public class PedidosController : ControllerBase
     private readonly CatalogoDbContext _catalogo;
     private readonly CotizacionService _cotizacionService;
     private readonly AuthDbContext _auth;
-    private readonly ReglasNegocio _reglas;
-
+    
     public PedidosController(
     AppDbContext context,
     CatalogoDbContext catalogo,
@@ -31,7 +30,6 @@ public class PedidosController : ControllerBase
         _catalogo = catalogo;
         _auth = auth;
         _cotizacionService = cotizacionService;
-        _reglas = reglas.Value;
     }
 
     [HttpGet]
@@ -272,7 +270,7 @@ public class PedidosController : ControllerBase
             if (usuario != null)
             {
                 var puntosGanados = (int)Math.Floor(
-                    pedido.subtotal / _reglas.PuntosCadaQ
+                    pedido.subtotal / 10
                 );
 
                 Console.WriteLine($"Usuario encontrado: {usuario?.id}");
@@ -317,7 +315,7 @@ public class PedidosController : ControllerBase
                 if (usuario != null)
                 {
                     var puntosGanados = (int)Math.Floor(
-                        pedido.subtotal / _reglas.PuntosCadaQ
+                        pedido.subtotal / 10
                     );
             
                     usuario.puntos -= puntosGanados;
