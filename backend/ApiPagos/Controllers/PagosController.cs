@@ -89,7 +89,7 @@ public class PagosController : ControllerBase
         }
         
         int puntosGanados = (int)Math.Floor(
-            pedido.total / 10
+            pedido.subtotal / 10
         );
         
         usuario.puntos += puntosGanados;
