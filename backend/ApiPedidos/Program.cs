@@ -5,8 +5,18 @@ using ApiPedidos.Configuracion;
 using ApiPedidos.Data;
 using ApiPedidos.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("No se configuró Jwt:Key.");
@@ -93,6 +103,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -103,7 +114,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseForwardedHeaders();
 app.UseAuthentication();
 app.UseAuthorization();
 
