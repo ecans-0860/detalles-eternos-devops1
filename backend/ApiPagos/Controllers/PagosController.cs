@@ -94,8 +94,6 @@ public class PagosController : ControllerBase
         
         usuario.puntos += puntosGanados;
 
-        usuario.puntos += puntosGanados;
-
         // Guardar los cambios.
         await _pedidosContext.SaveChangesAsync();
         await _context.SaveChangesAsync();
