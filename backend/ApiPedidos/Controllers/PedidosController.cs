@@ -10,7 +10,7 @@ using ApiPedidos.Models;
 namespace ApiPedidos.Controllers;
 
 [ApiController]
-[Route("pedidos")]
+[Route("api/pedidos")]
 public class PedidosController : ControllerBase
 {
     private readonly AppDbContext _context;
