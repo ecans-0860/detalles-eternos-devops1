@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ApiPedidos.Models;
 using Microsoft.Extensions.Options;
+using ApiPedidos.Configuracion;
 
 namespace ApiPedidos.Controllers;
 
