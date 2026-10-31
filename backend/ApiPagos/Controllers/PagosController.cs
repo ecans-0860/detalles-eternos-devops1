@@ -1,9 +1,3 @@
-﻿using ApiPagos.Data;
-using ApiPagos.DTOs;
-using ApiPagos.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 using ApiPagos.Data;
 using ApiPagos.DTOs;
 using ApiPagos.Models;
@@ -30,8 +24,7 @@ public class PagosController : ControllerBase
     {
         _context = context;
         _pedidosContext = pedidosContext;
-        _auth = auth;
-        _reglas = reglas.Value;
+        _auth = auth
     }
 
     [HttpPost]
@@ -85,9 +78,22 @@ public class PagosController : ControllerBase
             fecha = DateTime.UtcNow
         });
 
-       int puntosGanados = (int)Math.Floor(
+       var usuario = await _auth.Usuarios
+        .FirstOrDefaultAsync(u => u.id == pedido.usuario_id);
+
+        if (usuario == null)
+        {
+            return NotFound(new
+            {
+                mensaje = "No se encontró el usuario."
+            });
+        }
+        
+        int puntosGanados = (int)Math.Floor(
             pedido.subtotal / 10
         );
+        
+        usuario.puntos += puntosGanados;
 
         usuario.puntos += puntosGanados;
 
