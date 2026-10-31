@@ -70,7 +70,7 @@ public class PagosController : ControllerBase
         // Determinar el estado según el método de pago.
         if (pago.metodo_pago == "contra_entrega")
         {
-            pedido.estado = "PENDIENTE_PAGO";
+            pedido.estado = "PENDIENTE";
         
             pedido.historial.Add(new PedidoHistorial
             {
